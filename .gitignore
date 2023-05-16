@@ -1,0 +1,20 @@
+# Xcode
+.DS_Store
+build/
+*.pbxuser
+!default.pbxuser
+!default.xcworkspace
+xcuserdata
+*.moved-aside
+DerivedData
+.idea/
+/Gemfile.lock
+/Brewfile.lock*
+*.pyc
+.envrc
+.python-version
+**/__pycache__
+**/*.xcscheme
+.swiftpm
+Package.resolved
+Sources/Orbit/Foundation/Typography/*.otf

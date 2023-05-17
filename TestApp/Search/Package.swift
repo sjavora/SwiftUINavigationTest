@@ -16,7 +16,7 @@ let package = Package(
         .package(path: "../Navigation"),
     ],
     targets: [
-        .target(name: "Search"),
+        .target(name: "Search", dependencies: ["Navigation"]),
         .target(name: "SearchViews", dependencies: ["Booking", "Navigation", "Search"]),
         .target(name: "SearchImplementation", dependencies: ["Booking", "Search", "SearchViews"]),
     ]

@@ -15,3 +15,12 @@ struct SearchScreen: View {
         .navigationTitle("Search")
     }
 }
+
+struct SearchScreenPreviews: PreviewProvider {
+
+    static var previews: some View {
+        SearchScreen() {
+            // trigger router
+        }
+    }
+}

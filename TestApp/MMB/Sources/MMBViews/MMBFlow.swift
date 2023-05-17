@@ -76,3 +76,23 @@ public struct MMBFlow: View {
         self.switchToSearchTab = switchToSearchTab
     }
 }
+
+struct MMBFlowPreviews: PreviewProvider {
+
+    struct MMBFlowWrapper: View {
+
+        @State var popToRoot = false
+
+        var body: some View {
+            MMBFlow(
+                popToRoot: $popToRoot,
+                switchToSearchTab: {}
+            )
+        }
+    }
+
+    static var previews: some View {
+        // TODO: Crashes
+        MMBFlowWrapper()
+    }
+}

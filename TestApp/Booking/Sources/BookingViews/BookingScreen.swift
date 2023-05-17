@@ -1,6 +1,7 @@
 import SwiftUI
 import Navigation
 
+// TODO: Booking Flow wrapper around screens
 public struct BookingScreen: View {
 
     enum Modal {
@@ -54,5 +55,13 @@ public struct BookingScreen: View {
     public init(token: String, finish: @escaping (_ bookingID: String) -> Void) {
         self.token = token
         self.finish = finish
+    }
+}
+
+struct BookingScreenPreviews: PreviewProvider {
+
+    static var previews: some View {
+        // TODO: Presentation crashes
+        BookingScreen(token: "123", finish: { _ in })
     }
 }

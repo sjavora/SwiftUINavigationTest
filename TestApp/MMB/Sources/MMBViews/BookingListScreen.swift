@@ -23,6 +23,7 @@ import MMB
 public struct BookingListScreen: View {
 
     @ObservedObject var viewModel: BookingListViewModel
+
     let logIn: () -> Void
     let search: () -> Void
     let detail: (_ bid: String) -> Void
@@ -66,5 +67,18 @@ public struct BookingListScreen: View {
         self.logIn = logIn
         self.search = search
         self.detail = detail
+    }
+}
+
+struct BookingListScreenPreviews: PreviewProvider {
+
+    static var previews: some View {
+        BookingListScreen(
+            viewModel: .init(userStorage: .mock),
+            // VM should do all that
+            logIn: {},
+            search: {},
+            detail: { _ in }
+        )
     }
 }

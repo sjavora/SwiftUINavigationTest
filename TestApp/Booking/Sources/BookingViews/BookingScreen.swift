@@ -61,7 +61,7 @@ public struct BookingScreen: View {
 struct BookingScreenPreviews: PreviewProvider {
 
     static var previews: some View {
-        // TODO: Presentation crashes
         BookingScreen(token: "123", finish: { _ in })
+            .environmentObject(ModalDismissalHandlers())
     }
 }

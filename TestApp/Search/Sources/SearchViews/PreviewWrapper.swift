@@ -12,6 +12,14 @@ struct PreviewWrapper<Content: View>: View {
 
     @ViewBuilder var content: Content
 
+    let userStorage: any UserStoring = .mock
+
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+
+        UserStorageKey.$defaultValue.injectedValue = userStorage
+    }
+
     var body: some View {
         content
             .environmentObject(destinations)

@@ -83,16 +83,27 @@ struct MMBFlowPreviews: PreviewProvider {
 
         @State var popToRoot = false
 
+        let userStorage: any UserStoring = .mock
+
+        init() {
+            self.popToRoot = popToRoot
+
+            UserStorageKey.$defaultValue.injectedValue = userStorage
+        }
+
         var body: some View {
             MMBFlow(
                 popToRoot: $popToRoot,
                 switchToSearchTab: {}
             )
+            .environmentObject(DeeplinkRouter())
+            .environmentObject(DestinationStorage())
+            .environmentObject(ModalDismissalHandlers())
+            .environment(\.userStorage, userStorage)
         }
     }
 
     static var previews: some View {
-        // TODO: Crashes
         MMBFlowWrapper()
     }
 }

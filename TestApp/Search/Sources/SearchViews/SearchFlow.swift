@@ -66,7 +66,6 @@ struct SearchFlowPreviews: PreviewProvider {
     }
 
     static var previews: some View {
-        // TODO: Crashes
         PreviewWrapper {
             SearchFlowWrapper()
         }

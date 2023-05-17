@@ -23,3 +23,16 @@ struct SearchResultsScreen: View {
         .navigationTitle("Search results")
     }
 }
+
+struct SearchResultsScreenPreviews: PreviewProvider {
+
+    static var previews: some View {
+        PreviewWrapper {
+            SearchResultsScreen(
+                viewModel: .init()
+            ) { _ in
+                // trigger router
+            }
+        }
+    }
+}

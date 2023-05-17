@@ -1,6 +1,7 @@
 import SwiftUI
 import Navigation
 import Search
+import UserStorage
 
 public struct SearchFlow: View {
 
@@ -66,6 +67,8 @@ struct SearchFlowPreviews: PreviewProvider {
 
     static var previews: some View {
         // TODO: Crashes
-        SearchFlowWrapper()
+        PreviewWrapper {
+            SearchFlowWrapper()
+        }
     }
 }

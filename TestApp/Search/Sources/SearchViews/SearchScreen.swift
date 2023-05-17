@@ -19,8 +19,10 @@ struct SearchScreen: View {
 struct SearchScreenPreviews: PreviewProvider {
 
     static var previews: some View {
-        SearchScreen() {
-            // trigger router
+        PreviewWrapper {
+            SearchScreen() {
+                // trigger router
+            }
         }
     }
 }

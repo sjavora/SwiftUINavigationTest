@@ -14,10 +14,11 @@ let package = Package(
     dependencies: [
         .package(path: "../Booking"),
         .package(path: "../Navigation"),
+        .package(path: "../UserStorage"),
     ],
     targets: [
         .target(name: "Search", dependencies: ["Navigation"]),
-        .target(name: "SearchViews", dependencies: ["Booking", "Navigation", "Search"]),
+        .target(name: "SearchViews", dependencies: ["Booking", "Navigation", "Search", "UserStorage"]),
         .target(name: "SearchImplementation", dependencies: ["Booking", "Search", "SearchViews"]),
     ]
 )

@@ -7,15 +7,17 @@ public struct BookingDetailScreen: View {
     let itineraryDetail: () -> Void
 
     public var body: some View {
-        Text("BID: \(bookingID)")
-            .navigationTitle("Booking detail")
+        VStack(spacing: 16) {
+            Text("BID: \(bookingID)")
+                .navigationTitle("Booking detail")
 
-        Button("Push another screen") {
-            more()
-        }
+            Button("Push another screen") {
+                more()
+            }
 
-        Button("Itinerary detail") {
-            itineraryDetail()
+            Button("Itinerary detail") {
+                itineraryDetail()
+            }
         }
     }
 
@@ -23,5 +25,16 @@ public struct BookingDetailScreen: View {
         self.bookingID = bookingID
         self.more = more
         self.itineraryDetail = itineraryDetail
+    }
+}
+
+struct BookingDetailScreenPreviews: PreviewProvider {
+
+    static var previews: some View {
+        BookingDetailScreen(
+            bookingID: "123",
+            more: {},
+            itineraryDetail: {}
+        )
     }
 }

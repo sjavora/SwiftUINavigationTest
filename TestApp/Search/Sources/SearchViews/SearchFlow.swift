@@ -49,3 +49,23 @@ public struct SearchFlow: View {
         self.booking = booking
     }
 }
+
+struct SearchFlowPreviews: PreviewProvider {
+
+    struct SearchFlowWrapper: View {
+
+        @State var popToRoot = false
+
+        var body: some View {
+            SearchFlow(
+                popToRoot: $popToRoot,
+                booking: { _ in }
+            )
+        }
+    }
+
+    static var previews: some View {
+        // TODO: Crashes
+        SearchFlowWrapper()
+    }
+}

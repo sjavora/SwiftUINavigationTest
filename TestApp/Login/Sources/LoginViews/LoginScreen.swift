@@ -59,3 +59,15 @@ public struct LoginScreen: View {
         }
     }
 }
+
+struct LoginScreenPreviews: PreviewProvider {
+
+    static var previews: some View {
+        // TODO: crashes
+        LoginScreen(
+            viewModel: .init(
+                userStorage: .mock
+            )
+        )
+    }
+}

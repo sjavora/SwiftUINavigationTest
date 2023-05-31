@@ -43,7 +43,7 @@ public struct PushNavigationStack<Root: View>: View {
 
 struct LinkContainer: View {
 
-    @EnvironmentObject var destination: DestinationStorage
+    @EnvironmentObject var destinationStorage: DestinationStorage
     @State var isVisible = false
     let allItems: [ItemWithIdentifier]
     let index: Int
@@ -67,7 +67,7 @@ struct LinkContainer: View {
     }
 
     var screen: some View {
-        destination(for: allItems[index])
+        destinationStorage.destination(for: allItems[index])
     }
 
     var navigationLink: some View {

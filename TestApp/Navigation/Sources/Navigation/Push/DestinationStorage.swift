@@ -10,22 +10,18 @@ public final class DestinationStorage: ObservableObject {
 
     }
 
-    public func callAsFunction(for route: some Hashable) -> AnyView {
-        destination(for: ItemWithIdentifier(route))
-    }
-
-    func callAsFunction(for identifier: ItemWithIdentifier) -> AnyView {
-        destination(for: identifier)
-    }
-
-    func set<Path>(path: Path.Type, destination: @escaping (Path) -> some View) {
-        dictionary[ItemWithIdentifier.identifier(for: path)] = { key in
+    func set<Path>(pathIdentifier: String, destination: @escaping (Path) -> some View) {
+        dictionary[pathIdentifier] = { key in
             if let path = key as? Path {
                 return AnyView(destination(path))
             } else {
                 return Self.viewNotFound
             }
         }
+    }
+
+    func destination(for route: some Hashable) -> AnyView {
+        destination(for: ItemWithIdentifier(route))
     }
 
     func destination(for identifier: ItemWithIdentifier) -> AnyView {
@@ -37,28 +33,24 @@ public final class DestinationStorage: ObservableObject {
     }
 }
 
-public extension View {
-
-    func destination<Path>(
-        for _: Path.Type,
-        @ViewBuilder destination: @escaping (Path) -> some View
-    ) -> some View {
-        modifier(DestinationModifier(type: Path.self, destination: destination))
-    }
-}
-
 struct DestinationModifier<Path, Destination: View>: ViewModifier {
 
     @EnvironmentObject var storage: DestinationStorage
 
+    let pathIdentifier: String
     let destination: (Path) -> Destination
 
-    init(type _: Path.Type, destination: @escaping (Path) -> Destination) {
+    init(type: Path.Type, destination: @escaping (Path) -> Destination) {
+        self.init(identifier: ItemWithIdentifier.identifier(for: type), destination: destination)
+    }
+
+    init(identifier: String, destination: @escaping (Path) -> Destination) {
+        self.pathIdentifier = identifier
         self.destination = destination
     }
 
     func body(content: Content) -> some View {
-        storage.set(path: Path.self, destination: destination)
+        storage.set(pathIdentifier: pathIdentifier, destination: destination)
 
         return content
             .environmentObject(storage)

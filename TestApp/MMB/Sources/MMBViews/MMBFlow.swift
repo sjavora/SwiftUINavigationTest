@@ -96,7 +96,7 @@ struct MMBFlowPreviews: PreviewProvider {
                 switchToSearchTab: {}
             )
             .environmentObject(DeeplinkRouter())
-            .environmentObject(ModalDismissalHandlers())
+            .environmentObject(PresentedDismissalHandlers())
             .environment(\.userStorage, userStorage)
         }
     }

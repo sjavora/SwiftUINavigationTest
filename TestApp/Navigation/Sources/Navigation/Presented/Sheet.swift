@@ -46,7 +46,7 @@ extension View {
         onDismiss: (() -> Void)? = nil,
         @ViewBuilder content: @escaping (Value) -> Content
     ) -> some View where Content: View {
-        ExternallyDismissableModal(.sheet, isPresented: selection.isPresent()) { isPresented in
+        ExternalDismissalWrapper(.sheet, isPresented: selection.isPresent()) { isPresented in
             self
                 .sheet(isPresented: isPresented, onDismiss: onDismiss) {
                     Binding(unwrapping: selection).map { binding in

@@ -62,6 +62,6 @@ struct BookingScreenPreviews: PreviewProvider {
 
     static var previews: some View {
         BookingScreen(token: "123", finish: { _ in })
-            .environmentObject(ModalDismissalHandlers())
+            .environmentObject(PresentedDismissalHandlers())
     }
 }

@@ -6,7 +6,7 @@ import UserStorage
 // Shared wrapper for search feature views (+ later fonts,...)
 struct PreviewWrapper<Content: View>: View {
 
-    @StateObject var modalDismissalHandlers = ModalDismissalHandlers()
+    @StateObject var modalDismissalHandlers = PresentedDismissalHandlers()
     @StateObject var deeplinkRouter = DeeplinkRouter()
 
     @ViewBuilder var content: Content

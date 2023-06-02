@@ -10,7 +10,7 @@ extension View {
 
 struct RootDeeplinkPreparationModifier: ViewModifier {
 
-    @EnvironmentObject var modalDismissalHandlers: ModalDismissalHandlers
+    @EnvironmentObject var modalDismissalHandlers: PresentedDismissalHandlers
     @EnvironmentObject var bookingPresenter: BookingPresenter
     @ObservedObject var tabsModel: TabsModel
 
@@ -60,7 +60,7 @@ struct RootDeeplinkPreparationModifier: ViewModifier {
         var wasDismissing = false
 
         if let alertHandler = modalDismissalHandlers.handlers.last, alertHandler.kind == .alert {
-            await alertHandler.dismissModal()
+            await alertHandler.dismiss()
         } else if let bookingDismissalModel = bookingPresenter.bookingDismissalModel,
                   bookingDismissalModel.isDismissalConfirmationPresented {
             bookingDismissalModel.dismissAlert()
@@ -76,7 +76,7 @@ struct RootDeeplinkPreparationModifier: ViewModifier {
 
     func dismissModals() async {
         for handler in modalDismissalHandlers.handlers.reversed() {
-            await handler.dismissModal()
+            await handler.dismiss()
         }
     }
 }

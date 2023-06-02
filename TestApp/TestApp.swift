@@ -5,7 +5,7 @@ import BookingViews
 @main
 @MainActor struct TestApp: App {
 
-    @StateObject var modalDismissalHandlers = ModalDismissalHandlers()
+    @StateObject var modalDismissalHandlers = PresentedDismissalHandlers()
     @StateObject var deeplinkRouter = DeeplinkRouter()
     @StateObject var bookingPresenter = BookingPresenter()
 

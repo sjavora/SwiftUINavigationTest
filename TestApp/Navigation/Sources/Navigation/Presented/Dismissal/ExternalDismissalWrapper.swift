@@ -1,19 +1,19 @@
 import SwiftUI
 
-// A wrapper that makes it possible to dismiss a modally presented view using `ModalDismissalHandlers`
-struct ExternallyDismissableModal<Content: View>: View {
+/// A wrapper that makes it possible to dismiss a presented view using ``PresentedDismissalHandlers``
+struct ExternalDismissalWrapper<Content: View>: View {
 
-    @EnvironmentObject var dismissalHandlers: ModalDismissalHandlers
-    @StateObject var handler: ModalDismissalHandler
+    @EnvironmentObject var dismissalHandlers: PresentedDismissalHandlers
+    @StateObject var handler: PresentedDismissalHandlers.Handler
     let isPresented: Binding<Bool>
     let content: (Binding<Bool>) -> Content
 
     init(
-        _ kind: ModalDismissalHandler.Kind,
+        _ kind: PresentedDismissalHandlers.Handler.Kind,
         isPresented: Binding<Bool>,
         content: @escaping (Binding<Bool>) -> Content
     ) {
-        self._handler = StateObject(wrappedValue: ModalDismissalHandler(kind: kind))
+        self._handler = StateObject(wrappedValue: PresentedDismissalHandlers.Handler(kind: kind))
         self.isPresented = isPresented
         self.content = content
     }

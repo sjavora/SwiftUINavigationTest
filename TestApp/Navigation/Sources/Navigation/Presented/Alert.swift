@@ -7,7 +7,7 @@ extension View {
         case: Value,
         content: @escaping () -> Alert
     ) -> some View where Value: Equatable {
-        ExternallyDismissableModal(
+        ExternalDismissalWrapper(
             .alert,
             isPresented: Binding(
                 get: { selection.wrappedValue == `case` },
@@ -33,7 +33,7 @@ extension View {
     ) -> some View {
         let binding = selection.case(extract: extract, embed: embed)
 
-        return ExternallyDismissableModal(
+        return ExternalDismissalWrapper(
             .alert,
             isPresented: binding.isPresent(),
             content: { isPresented in

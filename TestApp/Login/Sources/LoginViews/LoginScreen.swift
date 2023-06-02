@@ -69,6 +69,6 @@ struct LoginScreenPreviews: PreviewProvider {
             )
         )
         .environmentObject(DeeplinkRouter())
-        .environmentObject(ModalDismissalHandlers())
+        .environmentObject(PresentedDismissalHandlers())
     }
 }

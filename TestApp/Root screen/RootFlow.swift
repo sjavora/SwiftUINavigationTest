@@ -45,7 +45,7 @@ struct RootFlow: View {
         .tabItem {
             Label("Search tab", systemImage: "1.magnifyingglass")
         }
-        .environment(\.currentTab, .search)
+        .environment(\.associatedTab, .search)
     }
 
     @ViewBuilder var bookingsTab: some View {
@@ -56,7 +56,7 @@ struct RootFlow: View {
         .tabItem {
             Label("Bookings tab", systemImage: "ticket")
         }
-        .environment(\.currentTab, .bookings)
+        .environment(\.associatedTab, .bookings)
     }
 
     func handleDeeplink(_ url: URL) {

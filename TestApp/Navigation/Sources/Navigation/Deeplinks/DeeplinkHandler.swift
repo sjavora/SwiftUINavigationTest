@@ -47,7 +47,7 @@ extension View {
 struct DeeplinkHandlerModifier<D: Deeplink>: ViewModifier {
 
     @EnvironmentObject var deeplinkRouter: DeeplinkRouter
-    @Environment(\.currentTab) var currentTab
+    @Environment(\.associatedTab) var associatedTab
 
     let preferences: DeeplinkHandlerPreferences
     let action: (D) -> Void
@@ -57,7 +57,7 @@ struct DeeplinkHandlerModifier<D: Deeplink>: ViewModifier {
             .onReceive(deeplinkRouter.$deeplink) { deeplink in
                 if let deeplink = deeplink as? D {
                     Task {
-                        await deeplinkRouter.claimCurrentDeeplink(with: preferences, currentTab: currentTab)
+                        await deeplinkRouter.claimCurrentDeeplink(with: preferences, associatedTab: associatedTab)
                         action(deeplink)
                     }
                 }

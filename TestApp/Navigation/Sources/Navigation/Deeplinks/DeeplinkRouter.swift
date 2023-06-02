@@ -27,7 +27,7 @@ import SwiftUI
         let destinationTab: TabBarTab?
 
         switch preparation.destinationTab {
-            case .basedOnHandler:   destinationTab = currentTab
+            case .basedOnHandler:   destinationTab = associatedTab
             case .custom(let tab):  destinationTab = tab
             case nil:               destinationTab = nil
         }

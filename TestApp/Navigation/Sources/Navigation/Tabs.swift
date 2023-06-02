@@ -6,12 +6,12 @@ public enum TabBarTab {
 }
 
 public extension EnvironmentValues {
-    var currentTab: TabBarTab? {
-        get { self[CurrentTabKey.self] }
-        set { self[CurrentTabKey.self] = newValue }
+    var associatedTab: TabBarTab? {
+        get { self[AssociatedTabKey.self] }
+        set { self[AssociatedTabKey.self] = newValue }
     }
 }
 
-private struct CurrentTabKey: EnvironmentKey {
+private struct AssociatedTabKey: EnvironmentKey {
     static let defaultValue: TabBarTab? = nil
 }

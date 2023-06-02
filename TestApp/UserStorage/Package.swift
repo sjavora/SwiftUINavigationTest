@@ -9,6 +9,7 @@ let package = Package(
     products: [
         .library(name: "UserStorage", targets: ["UserStorage"]),
         .library(name: "UserStorageImplementation", targets: ["UserStorageImplementation"]),
+        .library(name: "UserStorageMocks", targets: ["UserStorageMocks"]),
     ],
     dependencies: [
         .package(path: "../Navigation"),
@@ -16,5 +17,6 @@ let package = Package(
     targets: [
         .target(name: "UserStorage", dependencies: ["Navigation"]),
         .target(name: "UserStorageImplementation", dependencies: ["UserStorage"]),
+        .target(name: "UserStorageMocks", dependencies: ["UserStorage"]),
     ]
 )

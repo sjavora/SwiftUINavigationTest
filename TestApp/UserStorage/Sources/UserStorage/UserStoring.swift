@@ -14,7 +14,7 @@ public protocol UserStoring: AnyObject {
 public struct UserStorageKey: EnvironmentKey {
     public typealias Value = any UserStoring
 
-    @LateInit public static var defaultValue: any UserStoring
+    public static var defaultValue: any UserStoring = InitialUserStorage()
 }
 
 public extension EnvironmentValues {
@@ -24,19 +24,15 @@ public extension EnvironmentValues {
     }
 }
 
-// TODO: Move to mocks target
-public final class FakeUserStorage: UserStoring {
+// FIXME: can we do better than this? Perhaps macros will make it shorter...
+private final class InitialUserStorage: UserStoring {
 
-    @Published public var isLoggedIn = false
-    @Published public var bookings = [String]()
-
-    public var loggedInPublisher: AnyPublisher<Bool, Never> { $isLoggedIn.dropFirst().eraseToAnyPublisher() }
-    public var bookingsPublisher: AnyPublisher<[String], Never> { $bookings.dropFirst().eraseToAnyPublisher() }
-}
-
-public extension UserStoring where Self == FakeUserStorage {
-
-    static var mock: Self {
-        self.init()
+    var isLoggedIn: Bool {
+        get { fatalError() }
+        set { fatalError() }
     }
+
+    var bookings: [String] { fatalError() }
+    var loggedInPublisher: AnyPublisher<Bool, Never> { fatalError() }
+    var bookingsPublisher: AnyPublisher<[String], Never> { fatalError() }
 }

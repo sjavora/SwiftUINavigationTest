@@ -1,7 +1,7 @@
 import SwiftUI
 import Navigation
 import Search
-import UserStorage
+import UserStorageMocks
 
 // Shared wrapper for search feature views (+ later fonts,...)
 struct PreviewWrapper<Content: View>: View {
@@ -10,14 +10,6 @@ struct PreviewWrapper<Content: View>: View {
     @StateObject var deeplinkRouter = DeeplinkRouter()
 
     @ViewBuilder var content: Content
-
-    let userStorage: any UserStoring = .mock
-
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
-
-        UserStorageKey.$defaultValue.injectedValue = userStorage
-    }
 
     var body: some View {
         content

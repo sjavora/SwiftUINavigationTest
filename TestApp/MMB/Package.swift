@@ -17,7 +17,10 @@ let package = Package(
         .package(path: "../UserStorage"),
     ],
     targets: [
-        .target(name: "MMB", dependencies: ["Navigation"]),
+        .target(
+            name: "MMB",
+            dependencies: ["Navigation"]
+        ),
         .target(
             name: "MMBViews",
             dependencies: [
@@ -25,9 +28,16 @@ let package = Package(
                 .product(name: "LoginViews", package: "Login"),
                 "MMB",
                 "Navigation",
-                "UserStorage"
+                "UserStorage",
+                .product(name: "UserStorageMocks", package: "UserStorage"),
             ]
         ),
-        .target(name: "MMBImplementation", dependencies: ["MMB", "MMBViews"]),
+        .target(
+            name: "MMBImplementation",
+            dependencies: [
+                "MMB",
+                "MMBViews"
+            ]
+        ),
     ]
 )

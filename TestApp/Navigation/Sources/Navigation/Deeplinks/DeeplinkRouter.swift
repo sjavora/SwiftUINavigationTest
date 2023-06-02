@@ -15,14 +15,13 @@ import SwiftUI
         self.deeplink = deeplink
     }
 
-    func claimCurrentDeeplink(with preparation: DeeplinkHandlerPreferences, currentTab: TabBarTab?) async {
-        if #available(iOS 15.0, *) { // TODO: remove
-            if let deeplink = await $deeplink.values.compactMap({ $0 }).first(where: { _ in true }) {
-                print("Deeplink claimed \(deeplink)")
-            }
+    func claimCurrentDeeplink(with preparation: DeeplinkHandlerPreferences, associatedTab: TabBarTab?) async {
+        guard let deeplink else {
+            fatalError("No deeplink to claim.")
         }
-        assert(deeplink != nil)
-        deeplink = nil
+
+        print("Deeplink claimed \(deeplink)")
+        self.deeplink = nil
 
         let destinationTab: TabBarTab?
 

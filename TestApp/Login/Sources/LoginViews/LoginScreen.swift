@@ -21,6 +21,7 @@ enum PresentedDestination {
 
     func didConfirmLogin() {
         userStorage.isLoggedIn = true
+        dismissalPublisher.send()
     }
 }
 
@@ -38,7 +39,6 @@ public struct LoginScreen: View {
             VStack(spacing: 20) {
                 Button("Finish login") {
                     viewModel.didConfirmLogin()
-                    presentationMode.wrappedValue.dismiss()
                 }
 
                 Button("Show dummy sheet") {
@@ -54,6 +54,7 @@ public struct LoginScreen: View {
             }
             .onDeeplink(LoginDeeplink.self, preferences: .preserveExistingUI) { deeplink in
                 viewModel.didConfirmLogin()
+                // FIXME: why is this necessary?
                 presentationMode.wrappedValue.dismiss()
             }
         }

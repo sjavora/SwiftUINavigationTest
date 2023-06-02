@@ -1,67 +1,42 @@
 import SwiftUI
 import Navigation
 
-// TODO: Booking Flow wrapper around screens
-public struct BookingScreen: View {
+struct BookingScreen: View {
 
-    enum PresentedDestination {
-        case dummyAlert
-        case dummySheet
-    }
+    let token: String
+    var alert: () -> Void = {}
+    var sheet: () -> Void = {}
+    var dismiss: () -> Void = {}
+    var finish: () -> Void = {}
 
-    @Environment(\.presentationMode) var presentationMode
-    @StateObject var bookingDismissalConfirmation = BookingDismissalConfirmationModel()
-    @State var presented: PresentedDestination?
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Token: \(token)")
 
-    public let token: String
-    public let finish: (_ bookingID: String) -> Void
-
-    public var body: some View {
-        NavigationView {
-            VStack(spacing: 20) {
-                Text("Token: \(token)")
-
-                Button("Show dummy alert") {
-                    presented = .dummyAlert
-                }
-
-                Button("Show dummy sheet") {
-                    presented = .dummySheet
-                }
-
-                Button("Go to booking detail in MMB") {
-                    finish("123")
-                }
-
-                Button("Dismiss") {
-                    Task {
-                        if await bookingDismissalConfirmation.canBeDismissed() {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    }
-                }
+            Button("Show dummy alert") {
+                alert()
             }
-            .navigationTitle("Booking")
-            .bookingDismissalConfirmation(bookingDismissalConfirmation)
-        }
-        .sheet(selection: $presented, case: .dummySheet) {
-            Text("dummy")
-        }
-        .alert(selection: $presented, case: .dummyAlert) {
-            Alert(title: Text("test"))
-        }
-    }
 
-    public init(token: String, finish: @escaping (_ bookingID: String) -> Void) {
-        self.token = token
-        self.finish = finish
+            Button("Show dummy sheet") {
+                sheet()
+            }
+
+            Button("Go to booking detail in MMB") {
+                finish()
+            }
+
+            Button("Dismiss") {
+                dismiss()
+            }
+        }
+        .navigationTitle("Booking")
     }
 }
 
 struct BookingScreenPreviews: PreviewProvider {
 
     static var previews: some View {
-        BookingScreen(token: "123", finish: { _ in })
+        BookingScreen(token: "123")
             .environmentObject(PresentedDismissalHandlers())
     }
 }

@@ -19,7 +19,7 @@ struct RootFlow: View {
             bookingsTab
         }
         .fullScreenCover(selection: $bookingPresenter.currentBookingToken) { token in
-            BookingScreen(token: token) { bookingID in
+            BookingFlow(token: token) { bookingID in
                 switchFromBookingToMMB(bookingID: bookingID)
             }
             // FIXME: ideally this would be in RootDeeplinkPreparationModifier, but it seems that

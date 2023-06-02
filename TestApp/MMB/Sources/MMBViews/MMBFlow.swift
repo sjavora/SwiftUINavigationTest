@@ -6,20 +6,19 @@ import LoginViews
 
 public struct MMBFlow: View {
 
-    enum Path: Hashable {
+    enum NavigationDestination: Hashable {
         case bookingDetail(bid: String)
         case itineraryDetail
     }
 
-    enum Modal {
+    enum PresentedDestination {
         case login
     }
 
-    @EnvironmentObject var destination: DestinationStorage
     @Environment(\.userStorage) var userStorage
 
     @StateObject var path = PushNavigationPath()
-    @State var modal: Modal?
+    @State var presented: PresentedDestination?
 
     @Binding var popToRoot: Bool
 
@@ -28,21 +27,21 @@ public struct MMBFlow: View {
     public var body: some View {
         PushNavigationStack(path: path) {
             bookingList
+                .navigationDestination(for: NavigationDestination.self) { route in
+                    switch route {
+                        case .bookingDetail(let bookingID):
+                            bookingDetail(forBookingID: bookingID)
+                        case .itineraryDetail:
+                            itineraryDetail
+                    }
+                }
         }
         .popsToRoot(path, trigger: $popToRoot)
-        .destination(for: Path.self) { route in
-            switch route {
-                case .bookingDetail(let bookingID):
-                    bookingDetail(forBookingID: bookingID)
-                case .itineraryDetail:
-                    itineraryDetail
-            }
-        }
-        .sheet(selection: $modal, case: .login) {
+        .sheet(selection: $presented, case: .login) {
             LoginScreen(viewModel: LoginScreenViewModel(userStorage: userStorage))
         }
         .onDeeplink(BookingDetailDeeplink.self) { deeplink in
-            path.push(Path.bookingDetail(bid: deeplink.bid))
+            path.push(NavigationDestination.bookingDetail(bid: deeplink.bid))
         }
     }
 
@@ -50,20 +49,20 @@ public struct MMBFlow: View {
         BookingListScreen(
             viewModel: BookingListViewModel(userStorage: userStorage),
             logIn: {
-                modal = .login
+                presented = .login
             },
             search: { switchToSearchTab() },
             detail: { bid in
-                path.push(Path.bookingDetail(bid: bid))
+                path.push(NavigationDestination.bookingDetail(bid: bid))
             }
         )
     }
 
     @ViewBuilder func bookingDetail(forBookingID bookingID: String) -> some View {
         BookingDetailScreen(bookingID: bookingID) {
-            path.push(Path.bookingDetail(bid: UUID().uuidString))
+            path.push(NavigationDestination.bookingDetail(bid: UUID().uuidString))
         } itineraryDetail: {
-            path.push(Path.itineraryDetail)
+            path.push(NavigationDestination.itineraryDetail)
         }
     }
 
@@ -97,7 +96,6 @@ struct MMBFlowPreviews: PreviewProvider {
                 switchToSearchTab: {}
             )
             .environmentObject(DeeplinkRouter())
-            .environmentObject(DestinationStorage())
             .environmentObject(ModalDismissalHandlers())
             .environment(\.userStorage, userStorage)
         }

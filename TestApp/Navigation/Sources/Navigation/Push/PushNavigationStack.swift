@@ -1,8 +1,10 @@
 import SwiftUI
 
+@available(iOS, introduced: 14, obsoleted: 16, message: "Use native SwiftUI API.")
 public struct PushNavigationStack<Root: View>: View {
 
     @ObservedObject var path: PushNavigationPath
+    @State var destinations = NavigationDestinations()
     let root: Root
 
     public init(path: PushNavigationPath, @ViewBuilder root: () -> Root) {
@@ -13,6 +15,9 @@ public struct PushNavigationStack<Root: View>: View {
     public var body: some View {
         NavigationView {
             root
+                .onPreferenceChange(NavigationDestinationsKey.self) { destinations in
+                    self.destinations = destinations
+                }
                 .background(
                     navigationLink
                         .hidden()
@@ -21,7 +26,7 @@ public struct PushNavigationStack<Root: View>: View {
         .navigationViewStyle(.stack)
     }
 
-    @MainActor var navigationLink: some View {
+    var navigationLink: some View {
         NavigationLink(
             isActive: Binding(
                 get: { path.isEmpty == false },
@@ -32,7 +37,7 @@ public struct PushNavigationStack<Root: View>: View {
                 }
             )
         ) {
-            LinkContainer(allItems: path.items, index: 0) { index in
+            LinkContainer(allItems: path.items, index: 0, destinations: destinations) { index in
                 path.pop(toLength: index)
             }
         } label: {
@@ -43,10 +48,10 @@ public struct PushNavigationStack<Root: View>: View {
 
 struct LinkContainer: View {
 
-    @EnvironmentObject var destinationStorage: DestinationStorage
     @State var isVisible = false
     let allItems: [ItemWithIdentifier]
     let index: Int
+    let destinations: NavigationDestinations
 
     let dismiss: (Int) -> Void
 
@@ -67,7 +72,7 @@ struct LinkContainer: View {
     }
 
     var screen: some View {
-        destinationStorage.destination(for: allItems[index])
+        destinations.destination(for: allItems[index])
     }
 
     var navigationLink: some View {
@@ -81,7 +86,7 @@ struct LinkContainer: View {
                 }
             )
         ) {
-            LinkContainer(allItems: allItems, index: index + 1, dismiss: dismiss)
+            LinkContainer(allItems: allItems, index: index + 1, destinations: destinations, dismiss: dismiss)
         } label: {
             EmptyView()
         }

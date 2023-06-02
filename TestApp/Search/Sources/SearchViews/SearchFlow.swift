@@ -5,7 +5,7 @@ import UserStorage
 
 public struct SearchFlow: View {
 
-    enum Path: Hashable {
+    enum NavigationDestination: Hashable {
         case results
     }
 
@@ -17,25 +17,25 @@ public struct SearchFlow: View {
     public var body: some View {
         PushNavigationStack(path: path) {
             search
+                .navigationDestination(for: NavigationDestination.self) { path in
+                    switch path {
+                        case .results:
+                            results
+                    }
+                }
         }
         .popsToRoot(path, trigger: $popToRoot)
-        .destination(for: Path.self) { path in
-            switch path {
-                case .results:
-                    results
-            }
-        }
-        .onDeeplink(SearchDeeplink.self) { _ in
+        .onDeeplink(SearchDeeplink.self) {
             // do nothing - default preferences will already pop the stack and switch to this tab
         }
-        .onDeeplink(SearchResultsDeeplink.self) { _ in
-            path.push(Path.results)
+        .onDeeplink(SearchResultsDeeplink.self) {
+            path.push(NavigationDestination.results)
         }
     }
 
     @ViewBuilder var search: some View {
         SearchScreen {
-            path.push(Path.results)
+            path.push(NavigationDestination.results)
         }
     }
 

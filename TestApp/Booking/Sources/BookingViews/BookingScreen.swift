@@ -4,14 +4,14 @@ import Navigation
 // TODO: Booking Flow wrapper around screens
 public struct BookingScreen: View {
 
-    enum Modal {
+    enum PresentedDestination {
         case dummyAlert
         case dummySheet
     }
 
     @Environment(\.presentationMode) var presentationMode
     @StateObject var bookingDismissalConfirmation = BookingDismissalConfirmationModel()
-    @State var modal: Modal?
+    @State var presented: PresentedDestination?
 
     public let token: String
     public let finish: (_ bookingID: String) -> Void
@@ -22,11 +22,11 @@ public struct BookingScreen: View {
                 Text("Token: \(token)")
 
                 Button("Show dummy alert") {
-                    modal = .dummyAlert
+                    presented = .dummyAlert
                 }
 
                 Button("Show dummy sheet") {
-                    modal = .dummySheet
+                    presented = .dummySheet
                 }
 
                 Button("Go to booking detail in MMB") {
@@ -44,10 +44,10 @@ public struct BookingScreen: View {
             .navigationTitle("Booking")
             .bookingDismissalConfirmation(bookingDismissalConfirmation)
         }
-        .sheet(selection: $modal, case: .dummySheet) {
+        .sheet(selection: $presented, case: .dummySheet) {
             Text("dummy")
         }
-        .alert(selection: $modal, case: .dummyAlert) {
+        .alert(selection: $presented, case: .dummyAlert) {
             Alert(title: Text("test"))
         }
     }

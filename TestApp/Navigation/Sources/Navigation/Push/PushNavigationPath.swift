@@ -1,5 +1,6 @@
 import SwiftUI
 
+@available(iOS, introduced: 14, obsoleted: 16, message: "Use native SwiftUI API.")
 @MainActor public final class PushNavigationPath: ObservableObject {
 
     @Published private(set) var items: [ItemWithIdentifier] = []

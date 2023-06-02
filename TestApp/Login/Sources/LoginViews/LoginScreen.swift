@@ -4,13 +4,13 @@ import Navigation
 import Login
 import UserStorage
 
-enum Route {
+enum PresentedDestination {
     case dummySheet
 }
 
 @MainActor public final class LoginScreenViewModel: ObservableObject {
 
-    @Published var route: Route?
+    @Published var presented: PresentedDestination?
 
     let userStorage: any UserStoring
     let dismissalPublisher = PassthroughSubject<Void, Never>()
@@ -42,14 +42,14 @@ public struct LoginScreen: View {
                 }
 
                 Button("Show dummy sheet") {
-                    viewModel.route = .dummySheet
+                    viewModel.presented = .dummySheet
                 }
             }
             .navigationTitle("Login")
             .onReceive(viewModel.dismissalPublisher) {
                 presentationMode.wrappedValue.dismiss()
             }
-            .sheet(selection: $viewModel.route) { _ in
+            .sheet(selection: $viewModel.presented) { _ in
                 Text("dummy")
             }
             .onDeeplink(LoginDeeplink.self, preferences: .preserveExistingUI) { deeplink in

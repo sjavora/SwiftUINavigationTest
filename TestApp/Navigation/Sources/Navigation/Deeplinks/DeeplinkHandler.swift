@@ -30,6 +30,18 @@ extension View {
     ) -> some View {
         modifier(DeeplinkHandlerModifier(preferences: preferences, action: action))
     }
+
+    public func onDeeplink<D: Deeplink>(
+        _: D.Type,
+        preferences: DeeplinkHandlerPreferences = .default,
+        perform action: @escaping () -> Void
+    ) -> some View {
+        modifier(
+            DeeplinkHandlerModifier<D>(preferences: preferences) { _ in
+                action()
+            }
+        )
+    }
 }
 
 struct DeeplinkHandlerModifier<D: Deeplink>: ViewModifier {

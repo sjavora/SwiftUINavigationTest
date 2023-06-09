@@ -9,13 +9,13 @@ public struct SearchFlow: View {
         case results
     }
 
-    @StateObject private var path = PushNavigationPath()
+    @StateObject private var path = NavigationPath()
     @Binding private var popToRoot: Bool
 
     let booking: (_ token: String) -> Void
 
     public var body: some View {
-        PushNavigationStack(path: path) {
+        NavigationStack(path: path) {
             search
                 .navigationDestination(for: NavigationDestination.self) { path in
                     switch path {

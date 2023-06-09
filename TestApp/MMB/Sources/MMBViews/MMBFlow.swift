@@ -17,7 +17,7 @@ public struct MMBFlow: View {
 
     @Environment(\.userStorage) var userStorage
 
-    @StateObject var path = PushNavigationPath()
+    @StateObject var path = NavigationPath()
     @State var presented: PresentedDestination?
 
     @Binding var popToRoot: Bool
@@ -25,7 +25,7 @@ public struct MMBFlow: View {
     let switchToSearchTab: () -> Void
 
     public var body: some View {
-        PushNavigationStack(path: path) {
+        NavigationStack(path: path) {
             bookingList
                 .navigationDestination(for: NavigationDestination.self) { route in
                     switch route {

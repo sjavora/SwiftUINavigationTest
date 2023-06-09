@@ -1,13 +1,13 @@
 import SwiftUI
 
 @available(iOS, introduced: 14, obsoleted: 16, message: "Use native SwiftUI API.")
-public struct PushNavigationStack<Root: View>: View {
+public struct NavigationStack<Root: View>: View {
 
-    @ObservedObject var path: PushNavigationPath
+    @ObservedObject var path: NavigationPath
     @State var destinations = NavigationDestinations()
     let root: Root
 
-    public init(path: PushNavigationPath, @ViewBuilder root: () -> Root) {
+    public init(path: NavigationPath, @ViewBuilder root: () -> Root) {
         self._path = .init(wrappedValue: path)
         self.root = root()
     }

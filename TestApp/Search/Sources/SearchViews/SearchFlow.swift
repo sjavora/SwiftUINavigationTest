@@ -1,0 +1,73 @@
+import SwiftUI
+import Navigation
+import Search
+import UserStorage
+
+public struct SearchFlow: View {
+
+    enum NavigationDestination: Hashable {
+        case results
+    }
+
+    @StateObject private var path = NavigationPath()
+    @Binding private var popToRoot: Bool
+
+    let booking: (_ token: String) -> Void
+
+    public var body: some View {
+        NavigationStack(path: path) {
+            search
+                .navigationDestination(for: NavigationDestination.self) { path in
+                    switch path {
+                        case .results:
+                            results
+                    }
+                }
+        }
+        .popsToRoot(path, trigger: $popToRoot)
+        .onDeeplink(SearchDeeplink.self) {
+            // do nothing - default preferences will already pop the stack and switch to this tab
+        }
+        .onDeeplink(SearchResultsDeeplink.self) {
+            path.push(NavigationDestination.results)
+        }
+    }
+
+    @ViewBuilder var search: some View {
+        SearchScreen {
+            path.push(NavigationDestination.results)
+        }
+    }
+
+    @ViewBuilder var results: some View {
+        SearchResultsScreen(viewModel: SearchResultsViewModel()) { bookingToken in
+            booking(bookingToken)
+        }
+    }
+
+    public init(popToRoot: Binding<Bool>, booking: @escaping (_ token: String) -> Void) {
+        self._popToRoot = popToRoot
+        self.booking = booking
+    }
+}
+
+struct SearchFlowPreviews: PreviewProvider {
+
+    struct SearchFlowWrapper: View {
+
+        @State var popToRoot = false
+
+        var body: some View {
+            SearchFlow(
+                popToRoot: $popToRoot,
+                booking: { _ in }
+            )
+        }
+    }
+
+    static var previews: some View {
+        PreviewWrapper {
+            SearchFlowWrapper()
+        }
+    }
+}
